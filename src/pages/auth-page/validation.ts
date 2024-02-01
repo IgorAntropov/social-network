@@ -3,7 +3,7 @@ const REQUIRED_FIELD = 'Обязательно для заполнения'
 const EMAIL_REGEXP =
 	/^(([^<>()[\].,;:\s@"]+(\.[^<>()[\].,;:\s@"]+)*)|(".+"))@(([^<>()[\].,;:\s@"]+\.)+[^<>()[\].,;:\s@"]{2,})$/iu
 
-export const loginValidation = {
+export const emailValidation = {
 	required: REQUIRED_FIELD,
 	validate: (value: string) => {
 		if (value.match(/[а-яА-я]/)) {
@@ -31,4 +31,19 @@ export const passwordValidation = {
 
 		return true
 	},
+}
+
+export const passwordConfirmValidation = (password: string) => ({
+	required: REQUIRED_FIELD,
+	validate: (value: string) => {
+		if (value == password) {
+			return true
+		}
+
+		return 'Введенные пароли не совпадают'
+	},
+})
+
+export const emptyValidation = {
+	required: REQUIRED_FIELD,
 }

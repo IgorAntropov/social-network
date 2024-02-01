@@ -7,10 +7,14 @@ interface IPasswordInput {
 		password?: {
 			message?: string
 		}
+		confirmPassword?: {
+			message?: string
+		}
 	}
 	field: {
 		onChange: (event: React.ChangeEvent<HTMLInputElement>) => void
 	}
+	label: string
 }
 
 interface IEndAdornment {
@@ -18,7 +22,11 @@ interface IEndAdornment {
 	setShowPassword: (show: boolean) => void
 }
 
-export const PasswordInput: React.FC<IPasswordInput> = ({ errors, field }) => {
+export const PasswordInput: React.FC<IPasswordInput> = ({
+	errors,
+	field,
+	label,
+}) => {
 	const [showPassword, setShowPassword] = React.useState(true)
 
 	const EndAdornment: React.FC<IEndAdornment> = ({
@@ -40,17 +48,31 @@ export const PasswordInput: React.FC<IPasswordInput> = ({ errors, field }) => {
 
 	return (
 		<TextField
-			label='Пароль'
+			label={label}
 			size='small'
 			margin='none'
 			type={showPassword ? 'password' : 'text'}
 			fullWidth={true}
-			helperText={errors?.password?.message}
-			error={!!errors?.password?.message}
+			helperText={
+				label === 'Пароль'
+					? errors?.password?.message
+					: errors?.confirmPassword?.message
+			}
+			error={
+				label === 'Пароль'
+					? !!errors?.password?.message
+					: !!errors?.confirmPassword?.message
+			}
 			className='input'
 			onChange={(event: React.ChangeEvent<HTMLInputElement>) =>
 				field.onChange(event)
 			}
+			inputProps={{
+				autoComplete: 'new-password',
+				form: {
+					autoComplete: 'off',
+				},
+			}}
 			InputProps={{
 				endAdornment: (
 					<EndAdornment

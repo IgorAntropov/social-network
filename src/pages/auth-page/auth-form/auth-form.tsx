@@ -13,16 +13,21 @@ import {
 	useFormState,
 } from 'react-hook-form'
 import { PasswordInput } from '../../../components/inputs/password-input'
+import '../auth-page.scss'
+import { emailValidation, passwordValidation } from '../validation.ts'
 import './auth-form.scss'
-import { loginValidation, passwordValidation } from './validation'
 
 interface IAuthForm {
-	login: string
+	email: string
 	password: string
 	rememberMe: boolean
 }
 
-export const AuthForm: React.FC = () => {
+interface IAuthFormProps {
+	handleSwitchForm: (formType: string) => void
+}
+
+export const AuthForm: React.FC<IAuthFormProps> = props => {
 	const { handleSubmit, control } = useForm<IAuthForm>()
 
 	const { errors } = useFormState({ control })
@@ -30,45 +35,21 @@ export const AuthForm: React.FC = () => {
 	const onSubmit: SubmitHandler<IAuthForm> = authData => console.log(authData)
 
 	return (
-		<div className='auth-form'>
-			<img alt='Logo' src='./sn.svg' className='logo' />
-
-			<div className='title-container'>
-				<Typography
-					variant='h3'
-					component='span'
-					mb={0}
-					gutterBottom={true}
-					className='title'
-				>
-					CommunityCore
-				</Typography>
-
-				<Typography
-					variant='subtitle1'
-					component='span'
-					mb={0}
-					gutterBottom={true}
-					className='subtitle'
-				>
-					Будь в центре своего мира!
-				</Typography>
-			</div>
-
-			<form className='form' onSubmit={handleSubmit(onSubmit)}>
+		<div className='auth-form form'>
+			<form className='data-form' onSubmit={handleSubmit(onSubmit)}>
 				<Controller
 					control={control}
-					name='login'
-					rules={loginValidation}
+					name='email'
+					rules={emailValidation}
 					render={({ field }) => (
 						<TextField
-							label='Логин'
+							label='Email'
 							size='small'
 							margin='none'
 							type='text'
 							fullWidth={true}
-							helperText={errors.login?.message}
-							error={!!errors.login?.message}
+							helperText={errors.email?.message}
+							error={!!errors.email?.message}
 							className='input'
 							onChange={event => field.onChange(event)}
 						/>
@@ -80,7 +61,7 @@ export const AuthForm: React.FC = () => {
 					name='password'
 					rules={passwordValidation}
 					render={({ field }) => (
-						<PasswordInput errors={errors} field={field} />
+						<PasswordInput errors={errors} field={field} label='Пароль' />
 					)}
 				/>
 
@@ -131,7 +112,7 @@ export const AuthForm: React.FC = () => {
 					mb={0}
 					gutterBottom={true}
 					className='registration-btn'
-					onClick={() => console.log('Redirect on registration page')}
+					onClick={() => props.handleSwitchForm('registration')}
 				>
 					Зарегистрируйтесь!
 				</Typography>
