@@ -85,7 +85,7 @@ export const AuthForm: React.FC<IAuthFormProps> = props => {
 						mb={0}
 						gutterBottom={true}
 						className='forgot-password-btn'
-						onClick={() => console.log('Redirect on forgot password page')}
+						onClick={() => props.handleSwitchForm('resetPassword')}
 					>
 						Забыли пароль?
 					</Typography>

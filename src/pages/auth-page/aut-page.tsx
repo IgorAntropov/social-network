@@ -3,6 +3,7 @@ import React from 'react'
 import { AuthForm } from './auth-form'
 import './auth-page.scss'
 import { RegistrationForm } from './registration-form'
+import { ResetPasswordForm } from './reset-password-form'
 
 export const AuthPage: React.FC = () => {
 	const [selectedForm, setSelectedForm] = React.useState('auth')
@@ -16,7 +17,7 @@ export const AuthPage: React.FC = () => {
 			case 'auth':
 				return 'Будь в центре своего мира!'
 			case 'registration':
-				return 'Создание аккаунта'
+				return 'Создание профиля'
 			case 'resetPassword':
 				return 'Восстановление пароля'
 			default:
@@ -60,6 +61,10 @@ export const AuthPage: React.FC = () => {
 			)}
 
 			{selectedForm === 'registration' && <RegistrationForm />}
+
+			{selectedForm === 'resetPassword' && (
+				<ResetPasswordForm handleSwitchForm={handleSwitchForm} />
+			)}
 		</div>
 	)
 }

@@ -34,11 +34,7 @@ export const RegistrationForm: React.FC = () => {
 
 	return (
 		<div className='registration-form form'>
-			<form
-				className='data-form'
-				id='reg-form'
-				onSubmit={handleSubmit(onSubmit)}
-			>
+			<form className='data-form' onSubmit={handleSubmit(onSubmit)}>
 				<Controller
 					control={control}
 					name='userName'
